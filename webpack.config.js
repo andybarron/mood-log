@@ -17,11 +17,14 @@ const VUE_LOADER_OPTIONS = {
 };
 
 module.exports = {
-  entry: ['babel-polyfill', path.resolve('src/node_modules/client/index.js')],
+  entry: [path.resolve('src/node_modules/client/index.ts')],
   output: {
     path: path.resolve(config.OUTPUT_DIR),
     publicPath: '/',
     filename: 'app.js',
+  },
+  resolve: {
+    extensions: ['.ts', '.js', '.vue'],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -41,9 +44,11 @@ module.exports = {
         options: VUE_LOADER_OPTIONS,
       },
       {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: path.resolve('node_modules'),
+        test: /.ts$/,
+        loader: 'ts-loader',
+        options: {
+          appendTsSuffixTo: [/\.vue$/],
+        },
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
