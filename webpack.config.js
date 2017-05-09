@@ -45,6 +45,7 @@ module.exports = {
       },
       {
         test: /.ts$/,
+        exclude: path.resolve('node_modules'),
         loader: 'ts-loader',
         options: {
           appendTsSuffixTo: [/\.vue$/],
@@ -60,13 +61,13 @@ module.exports = {
     ]
   },
   devServer: {
-    historyApiFallback: true,
-    noInfo: true
+    historyApiFallback: false,
+    noInfo: true,
   },
   performance: {
-    hints: false
+    hints: false,
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
 }
 
 if (IS_DEV) {
@@ -75,7 +76,6 @@ if (IS_DEV) {
   ]);
 } else {
   module.exports.devtool = '#source-map'
-  // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = module.exports.plugins.concat([
     new webpack.DefinePlugin({
       'process.env': {
@@ -86,7 +86,7 @@ if (IS_DEV) {
       sourceMap: true,
       compress: {
         warnings: false
-      }
+      },
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
